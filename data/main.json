@@ -44,13 +44,17 @@
         "basename": "main",
         "extname": ".js",
         "files": [
-          "develop/scripts/**/*.js"
+          "develop/scripts/application.js",
+          "develop/scripts/_base/**/*.js",
+          "develop/scripts/main.js"
         ]
       },
       "vendor": {
         "dirname": "vendor",
         "files": [
-          "bower_components/handlebars/handlebars.js"
+          "bower_components/handlebars/handlebars.js",
+          "bower_components/underscore/underscore.js",
+          "bower_components/jquery/dist/jquery.js"
         ]
       }
     },
@@ -72,7 +76,9 @@
         "sourceMap": false,
         "dirname": "vendor",
         "files": [
-          "bower_components/handlebars/handlebars.js"
+          "bower_components/handlebars/handlebars.js",
+          "bower_components/underscore/underscore.js",
+          "bower_components/jquery/jquery.js"
         ]
       }
     }

@@ -7,3 +7,5 @@ design
 documents
 npm-debug.log.*
 test
+gulp-tasks
+gulpfile

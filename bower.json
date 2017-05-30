@@ -1,11 +1,13 @@
 {
-  "name": "application",
-  "description": "Application",
+  "name": "boilerplate-mv",
+  "description": "Boilerplate MV.",
   "authors": [
     "Thomas Welborn"
   ],
   "license": "ISC",
   "devDependencies": {
-    "handlebars": "^4.0.5"
+    "handlebars": "^4.0.5",
+    "underscore": "^1.8.3",
+    "jquery": "^3.2.1"
   }
 }
