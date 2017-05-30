@@ -14,7 +14,7 @@ Application.Base['Model'] = function(options) {
         value = value || {};
         if(typeof value === 'object' && !Array.isArray(value)) {
           this._options = value;
-          this['id'] = this.options['id'] || Application.Utilities.guid();
+          this['id'] = this.options['id'] || _.uniqueId();
           this['url'] = this.options['url'] || '';
           this['data'] = this.options['data'] || {};
           if(this.options['collection']) this['collection'] = this.options['collection'];

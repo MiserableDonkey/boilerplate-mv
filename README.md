@@ -16,9 +16,9 @@ effort.
 
 * Use an existing MV framework
 * Use plain JS with some library support
-* Use Boilerplate MV 
+* Use Boilerplate MV
 
-### Use an existing MV framework
+## Use an existing MV framework instead of this one
 
 Both Backbone and Angular can be scaled for very simple and highly complex projects.
 With simple implementations Backbone and Angular can be relied on for low learning
@@ -29,7 +29,7 @@ used in both frameworks is easily recognizable.
 * [Angular](https://angular.io/)
 
 
-### Use plain JS with some library support
+## Use plain JS with some library support instead of this one
 
 Backbone and Angular, even when scaled to minimum use, may be unnecessary or prohibited.
 If a framework can not be used or is not necessary, and the level of project complexity
@@ -43,7 +43,7 @@ of the following pattern:
  * [Underscore(CDN)](https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js)
 
 
-#### Template
+### Template
 
 ```
 var appTemplate = function(data) {
@@ -69,7 +69,7 @@ var appTemplate = function(data) {
 };
 ```
 
-#### Model
+### Model
 
 ```
 var model = function(settings) {
@@ -89,7 +89,7 @@ var model = function(settings) {
 };
 ```
 
-#### View
+### View
 
 ```
 var view = function(settings) {
@@ -110,7 +110,7 @@ var view = function(settings) {
 ```
 
 
-#### Router
+### Router
 
 ```
 var router = function(settings) {
@@ -131,7 +131,7 @@ var router = function(settings) {
 ```
 
 
-#### Example
+### Example
 
 ```
 var appModel = new model({
@@ -148,8 +148,13 @@ appView.model.get().then(function(response) {
 ```
 
 
-### Use Boilerplate MV
+## Use Boilerplate MV
 
-```
+Router
+Collection
+Model
+View
+
 ...
+
 ```

@@ -80,7 +80,7 @@ Application.Base['Collection'] = function(options) {
         value = value || {};
         if(typeof value === 'object' && !Array.isArray(value)) {
           this._options = value;
-          this['id'] = this._options['id'] || Application.Utilities.guid();
+          this['id'] = this._options['id'] || _.uniqueId();
           this['url'] = this._options['url'];
           this['model'] = this._options['model'] || Application.Base['Model'];
           this['data'] = this._options['data'] || {};
@@ -255,7 +255,7 @@ Application.Base['Model'] = function(options) {
         value = value || {};
         if(typeof value === 'object' && !Array.isArray(value)) {
           this._options = value;
-          this['id'] = this.options['id'] || Application.Utilities.guid();
+          this['id'] = this.options['id'] || _.uniqueId();
           this['url'] = this.options['url'] || '';
           this['data'] = this.options['data'] || {};
           if(this.options['collection']) this['collection'] = this.options['collection'];
@@ -572,7 +572,7 @@ Application.Base['View'] = function(options) {
         value = value || {};
         if(typeof value === 'object' && !Array.isArray(value)) {
           this._options = value;
-          this['id'] = this.options['id'] || Application.Utilities.guid();
+          this['id'] = this.options['id'] || _.uniqueId();
           this['elementName'] = this.options['elementName'] || 'div';
           this['template'] = this.options['template'] || _.template('');
           this['ui'] = this.options['ui'] || null;

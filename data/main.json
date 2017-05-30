@@ -46,7 +46,8 @@
         "files": [
           "develop/scripts/application.js",
           "develop/scripts/_base/**/*.js",
-          "develop/scripts/main.js"
+          "develop/scripts/main.js",
+          "develop/scripts/test/**/*.js"
         ]
       },
       "vendor": {

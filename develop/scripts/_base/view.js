@@ -14,7 +14,7 @@ Application.Base['View'] = function(options) {
         value = value || {};
         if(typeof value === 'object' && !Array.isArray(value)) {
           this._options = value;
-          this['id'] = this.options['id'] || Application.Utilities.guid();
+          this['id'] = this.options['id'] || _.uniqueId();
           this['elementName'] = this.options['elementName'] || 'div';
           this['template'] = this.options['template'] || _.template('');
           this['ui'] = this.options['ui'] || null;
@@ -193,10 +193,9 @@ Application.Base['View'] = function(options) {
     render: {
       enumerable: true,
       value: function() {
-        var _templateContext = this.collection ||
-                               this.options.collection ||
-                               this.model ||
-                               this.options.model;
+        var _templateContext = {};
+        if(this.model) _templateContext['model'] = this.model.parse();
+        if(this.collection) _templateContext['collection'] = this.collection.parse();
         this.$element.html(this.template(_templateContext));
         return this;
       },

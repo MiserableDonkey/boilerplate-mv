@@ -6,6 +6,16 @@ assets
 design
 documents
 npm-debug.log.*
-test
 gulp-tasks
 gulpfile.js
+develop/fonts
+develop/images
+develop/scripts/modules
+develop/scripts/routers
+develop/scripts/models
+develop/scripts/collections
+develop/scripts/views
+develop/scripts/test
+develop/scripts/services
+develop/styles
+develop/templates
