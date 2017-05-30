@@ -10,7 +10,13 @@ be used.
 Anything from standalone web page components to fully-packaged client-side applications
 can use an MV pattern or framework. Separating code between model data and view
 markup is good practice in general and should not necessarily be considered additional
-effort. **In general**:
+effort.
+
+**Before choosing to use this consider these options:**
+
+* Use an existing MV framework
+* Use plain JS with some library support
+* Use Boilerplate MV 
 
 ### Use an existing MV framework
 
@@ -142,6 +148,8 @@ appView.model.get().then(function(response) {
 ```
 
 
-**Use this boilerplate MV**
+### Use Boilerplate MV
 
+```
 ...
+```
