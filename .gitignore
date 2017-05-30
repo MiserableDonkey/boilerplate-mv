@@ -1,11 +1,11 @@
 bower_components
 node_modules
 .tmp
-dist
+data
 assets
 design
 documents
 npm-debug.log.*
 test
 gulp-tasks
-gulpfile
+gulpfile.js

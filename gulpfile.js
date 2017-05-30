@@ -62,10 +62,7 @@ gulp.task('develop', function() {
 gulp.task('distribute', function() {
   runSequence(
     'clean:distribute',
-    'styles:distribute',
     'scripts:distribute',
-    'images:distribute',
-    'templates:distribute',
     'copy:distribute'
   );
 });

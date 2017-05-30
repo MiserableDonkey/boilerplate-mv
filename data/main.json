@@ -1,6 +1,6 @@
 {
-  "id": "application",
-  "project": "Application",
+  "id": "boilerplate-mv",
+  "project": "BoilerplateMV",
   "namespace": "Application",
   "env": {
     "develop": {
@@ -61,24 +61,25 @@
     "distribute": {
       "application": {
         "concat": true,
-        "uglify": true,
+        "uglify": false,
         "sourceMap": false,
         "dirname": ".",
-        "basename": "main",
+        "basename": "_base",
         "extname": ".js",
         "files": [
-          "develop/scripts/**/*.js"
+          "develop/scripts/application.js",
+          "develop/scripts/_base/**/*.js"
         ]
       },
       "vendor": {
         "concat": false,
-        "uglify": true,
+        "uglify": false,
         "sourceMap": false,
         "dirname": "vendor",
         "files": [
           "bower_components/handlebars/handlebars.js",
           "bower_components/underscore/underscore.js",
-          "bower_components/jquery/jquery.js"
+          "bower_components/jquery/dist/jquery.js"
         ]
       }
     }
