@@ -55,7 +55,8 @@
         "files": [
           "bower_components/handlebars/handlebars.js",
           "bower_components/underscore/underscore.js",
-          "bower_components/jquery/dist/jquery.js"
+          "bower_components/jquery/dist/jquery.js",
+          "bower_components/url-pattern/lib/url-pattern.js"
         ]
       }
     },
@@ -80,7 +81,8 @@
         "files": [
           "bower_components/handlebars/handlebars.js",
           "bower_components/underscore/underscore.js",
-          "bower_components/jquery/dist/jquery.js"
+          "bower_components/jquery/dist/jquery.js",
+          "bower_components/url-pattern/lib/url-pattern.js"
         ]
       }
     }

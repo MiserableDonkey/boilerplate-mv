@@ -69,6 +69,7 @@ Application.Base['Model'] = function(options) {
             set: function(_value) {
               this[_key] = value;
               Model.trigger('change', Model);
+              Model.trigger(String('change').concat(':', _key), Model);
             },
           }
         });

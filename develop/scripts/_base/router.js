@@ -12,6 +12,20 @@ Application.Base['Router'] = function(options) {
         assignment: '=',
       },
     },
+    _ignoreHashChange: {
+      writable: true,
+      enumerable: false,
+      value: false,
+    },
+    ignoreHashChange: {
+      enumerable: true,
+      get: function() {
+        return this._ignoreHashChange;
+      },
+      set: function(value) {
+        if(value !== this._ignoreHashChange) this._ignoreHashChange = value;
+      }
+    },
     _options: {
       writable: true,
       enumerable: false,
@@ -26,9 +40,9 @@ Application.Base['Router'] = function(options) {
         value = value || value;
         if(typeof value === 'object' && !Array.isArray(value)) {
           this._options = value;
-          this.element = this._options.element || window;
-          this.paths = this._options.paths || {};
-          this.controllers = this._options.controllers || {};
+          this['element'] = this.options['element'] || window;
+          this['routes'] = this.options['routes'] || {};
+          this['controllers'] = this.options['controllers'] || {};
         }
       },
     },
@@ -67,15 +81,29 @@ Application.Base['Router'] = function(options) {
         }
       },
     },
-    hashChange: {
-      writable: false,
+    _routeData: {
+      writable: true,
+      enumerable: false,
+      value: {},
+    },
+    routeData: {
       enumerable: true,
-      value: function(event) {
-        var hashData = this.element.location.hash.split(this.token.query);
-        this.path = hashData[0].split(this.token.hash).pop();
-        if(hashData[1]) this.parameters = hashData[1];
-        this.navigate(this.path, this.parameters);
-        return this;
+      get: function() {
+        return this._routeData;
+      },
+      set: function(value) {
+        if(typeof value === 'string') {
+          var _hashData = this.element.location.hash.split(this.token.query);
+          this._routeData = {};
+          if(_hashData[0]) {
+            this.path = _hashData[0].split(this.token.hash).pop();
+            this._routeData['path'] = this.path;
+          }
+          if(_hashData[1]) {
+            this.parameters = _hashData[1];
+            this._routeData['parameters'] = this.parameters;
+          }
+        }
       },
     },
     _path: {
@@ -90,23 +118,29 @@ Application.Base['Router'] = function(options) {
       },
       set: function(value) {
         if(typeof value === 'string') {
-          var _path = {};
-          var _splitPath = value.split(this.token.path);
-          _splitPath = _.without(_splitPath, '');
-          _.each(_splitPath, function(_fragment, _fragmentIndex) {
-            _path[_fragmentIndex] = _fragment;
+          var _splitRoute = value.split(this.token.path);
+          _splitRoute = _.without(_splitRoute, '');
+          this._path = {
+            endpoint: '',
+            fragments: {},
+          };
+          _.each(_splitRoute, function(_fragment, _fragmentIndex) {
+            this._path['endpoint'] = String(this._path['endpoint']).concat(this.token.path, _fragment);
+            this._path['fragments'][_fragmentIndex] = _fragment;
+            if(_fragmentIndex === (Object.keys(_splitRoute).length - 1)) {
+              this._path['endpoint'] = this._path['endpoint'].concat(this.token.path);
+            }
           }.bind(this));
-          if(!Object.keys(_path).length && (value === this.token.path)) {
-            _path[0] = this.token.path;
-          }
-          this._path = _path;
         }
       },
     },
     _parameters: {
       writable: true,
       enumerable: false,
-      value: {},
+      value: {
+        query: '',
+        properties: {},
+      },
     },
     parameters: {
       enumerable: true,
@@ -115,28 +149,31 @@ Application.Base['Router'] = function(options) {
       },
       set: function(value) {
         if(typeof value === 'string') {
-          var _parameters = {};
-          _parameters = _.object(value.split(this.token.separator).map(function(_parameter){
+          this._parameters = {
+            query: '',
+            properties: {},
+          };
+          this._parameters['properties'] = _.object(value.split(this.token.separator).map(function(_parameter) {
+            this._parameters['query'] = String(this.token.query).concat(value);
             return _parameter.split(this.token.assignment);
           }.bind(this)));
-          _parameters = _.omit(_parameters, _.isEmpty);
-          this._parameters = _parameters;
+          this._parameters['properties'] = _.omit(this._parameters['properties'], _.isEmpty);
         }
       },
     },
-    _paths: {
+    _routes: {
       writable: true,
       enumerable: false,
       value: {},
     },
-    paths: {
+    routes: {
       enumerable: true,
       get: function() {
-        return this._paths;
+        return this._routes;
       },
       set: function(value) {
         if(typeof value === 'object' && !Array.isArray(value)) {
-          this._paths = value;
+          this._routes = value;
         }
       },
     },
@@ -156,37 +193,53 @@ Application.Base['Router'] = function(options) {
         }
       },
     },
-    navigate: {
+    silentHashChange: {
       enumerable: true,
-      value: function(path, parameters) {
-        var _routeData = {};
-        var _routeName = '';
-        if(
-          (typeof path === 'object') &&
-          !Array.isArray(path) &&
-          Object.keys(path).length
-        ) {
-          _routeData['path'] = path;
+      value: function(path) {
+        if(typeof path === 'string') {
+          this.ignoreHashChange = true;
+          this.element.location.hash = path;
+          this.ignoreHashChange = false;
         }
-        if(
-          (typeof parameters === 'object') &&
-          !Array.isArray(parameters) &&
-          Object.keys(parameters).length
-        ) {
-          _routeData['parameters'] = parameters;
+      }
+    },
+    hashChange: {
+      writable: false,
+      enumerable: true,
+      value: function(event) {
+        if(!this.ignoreHashChange) {
+          this.routeData = this.element.location.hash;
+          this.navigate(this.routeData);
+        }else {
+          event.preventDefault();
         }
-        _.each(_routeData.path, function(_fragmentName) {
-          if(_fragmentName !== this.token.path) {
-            _routeName = _routeName.concat(this.token.path, _fragmentName);
-          }else {
-            _routeName = this.token.path;
-          }
-        }.bind(this));
-        _routeData['name'] = _routeName;
-        this.controllers[this.paths[_routeName]](_routeData);
-        this.trigger('navigate', _routeData);
         return this;
       },
+    },
+    navigate: {
+      enumerable: true,
+      value: function(_routeData) {
+        var _routeController = this.routeController(_routeData);
+        if(typeof _routeController === 'function') {
+          var hashString = String(_routeData.path.endpoint);
+          if(_routeData.parameters) _routeData.parameters.query = hashString.concat(_routeData.parameters.query);
+          this.silentHashChange(hashString);
+          _routeController(_routeData);
+          this.trigger('navigate', _routeData);
+        }
+        return this;
+      },
+    },
+    routeController: {
+      enumerable: true,
+      value: function(routeData) {
+        var _routeController = {};
+        var _routeName = routeData.path.endpoint;
+        if(typeof _routeName === 'string' && _routeName.length) {
+          _routeController = this.controllers[this.routes[_routeName]];
+        }
+        return _routeController;
+      }
     },
   });
   Router.options = options || {};
