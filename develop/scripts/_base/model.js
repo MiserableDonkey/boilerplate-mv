@@ -40,9 +40,12 @@ Application.Base['Model'] = function(options) {
     destroy: {
       enumerable: true,
       value: function() {
-        this.collection.removeModelByID(this.getProperty('id'));
+        if(this.collection) {
+          this.collection.removeModelByID(this.getProperty('id'));
+        }
         this.data = {};
-        this.trigger('remove', Model);
+        this.trigger('remove');
+        return this;
       },
     },
     getProperty: {

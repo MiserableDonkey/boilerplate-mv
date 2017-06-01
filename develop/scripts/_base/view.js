@@ -55,11 +55,11 @@ Application.Base['View'] = function(options) {
       set: function(value) {
         if(typeof value === 'object') {
           this._uiEvents = value;
+          var _propertySeparator = ' ';
+          var _valueSeparator = ',';
+          var _uiHash = '@';
           _.each(this._uiEvents, function(_key, _event) {
             _key = _key.replace(', ', '');
-            var _propertySeparator = ' ';
-            var _valueSeparator = ',';
-            var _uiHash = '@';
             var _selectorsData = _key.split(' ')[1];
             var _eventsData = _key.split(' ')[0];
             _selectorsData = _selectorsData.split(_valueSeparator);
@@ -204,8 +204,10 @@ Application.Base['View'] = function(options) {
     },
     render: {
       enumerable: true,
-      value: function() {
-        this.$element.html(this.template(this.templateContext));
+      value: function(context) {
+        var _context = context || this.templateContext;
+        this.$element.html(this.template(_context));
+        this.trigger('render', this);
         return this;
       },
     }

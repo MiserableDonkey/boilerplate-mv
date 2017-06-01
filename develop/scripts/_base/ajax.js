@@ -9,6 +9,7 @@ Application.Base['AJAX'] = function() {
         if(!_options.url) _options.url = this.url;
         var $ajax = $.ajax(_options);
         $ajax.then(function(response) {
+          console.log(response);
           if(response) this.data = response;
         }.bind(this));
         return $ajax;

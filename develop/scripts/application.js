@@ -1,6 +1,5 @@
-var Application = (function(window){
-  window.Application = {
-    Base: {},
-  };
-  return window.Application;
-})(window);
+var Application = window.Application || {};
+(function(Application){
+  Application.Base = {};
+  return Application;
+})(Application);

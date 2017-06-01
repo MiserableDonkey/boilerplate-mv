@@ -34,6 +34,7 @@ Application.Base['Collection'] = function(options) {
       set: function(value) {
         if(value && Array.isArray(value)) {
           this.setModels(value, true);
+          this.trigger('ready', this);
         }
       }
     },
@@ -66,8 +67,8 @@ Application.Base['Collection'] = function(options) {
         var _id = id;
         var _model = this.getModelByID(_id);
         if(_model) {
-          var _index = _.indexOf(this.models, {
-            id: _id
+          var _index = _.findIndex(this.parse(), {
+              id: _id
           });
           this.models.splice(_index, 1);
           this.data.splice(_index, 1);
