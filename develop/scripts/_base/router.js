@@ -199,7 +199,9 @@ Application.Base['Router'] = function(options) {
         if(typeof path === 'string') {
           this.ignoreHashChange = true;
           this.element.location.hash = path;
-          this.ignoreHashChange = false;
+          this.$element.one('hashchange', function() {
+            this.ignoreHashChange = false;
+          }.bind(this));
         }
       }
     },
@@ -221,10 +223,8 @@ Application.Base['Router'] = function(options) {
       value: function(_routeData) {
         var _routeController = this.routeController(_routeData);
         if(typeof _routeController === 'function') {
-          var hashString = String(_routeData.path.endpoint);
-          if(_routeData.parameters) _routeData.parameters.query = hashString.concat(_routeData.parameters.query);
-          this.silentHashChange(hashString);
           _routeController(_routeData);
+          this.silentHashChange(_routeData.path.endpoint);
           this.trigger('navigate', _routeData);
         }
         return this;
@@ -234,9 +234,9 @@ Application.Base['Router'] = function(options) {
       enumerable: true,
       value: function(routeData) {
         var _routeController = {};
-        var _routeName = routeData.path.endpoint;
-        if(typeof _routeName === 'string' && _routeName.length) {
-          _routeController = this.controllers[this.routes[_routeName]];
+        var _routeMap = {};
+        if(typeof routeData.path.endpoint === 'string' && routeData.path.endpoint.length) {
+          _routeController = this.controllers[this.routes[routeData.path.endpoint]];
         }
         return _routeController;
       }

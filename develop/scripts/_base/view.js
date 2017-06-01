@@ -122,6 +122,31 @@ Application.Base['View'] = function(options) {
         }
       },
     },
+    _templateContext: {
+      writable: true,
+      enumerable: false,
+      value: {},
+    },
+    templateContext: {
+      get: function() {
+        if(this.model) this._templateContext['model'] = this.model.parse();
+        if(this.collection) this._templateContext['collection'] = this.collection.parse();
+        return this._templateContext;
+      },
+    },
+    _template: {
+      writable: true,
+      enumberable: false,
+    },
+    template: {
+      enumerable: true,
+      get: function() {
+        return this._template;
+      },
+      set: function(value) {
+        this._template = value;
+      },
+    },
     _elementName: {
       writable: true,
       enumberable: false,
@@ -177,26 +202,10 @@ Application.Base['View'] = function(options) {
         }
       },
     },
-    _template: {
-      writable: true,
-      enumberable: false,
-    },
-    template: {
-      enumerable: true,
-      get: function() {
-        return this._template;
-      },
-      set: function(value) {
-        this._template = value;
-      },
-    },
     render: {
       enumerable: true,
       value: function() {
-        var _templateContext = {};
-        if(this.model) _templateContext['model'] = this.model.parse();
-        if(this.collection) _templateContext['collection'] = this.collection.parse();
-        this.$element.html(this.template(_templateContext));
+        this.$element.html(this.template(this.templateContext));
         return this;
       },
     }
